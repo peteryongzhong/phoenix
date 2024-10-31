@@ -234,10 +234,6 @@ export interface PlaygroundState extends PlaygroundProps {
    */
   runPlaygroundInstances: () => void;
   /**
-   * Run a specific playground instance
-   */
-  runPlaygroundInstance: (instanceId: number) => void;
-  /**
    * Mark a given playground instance as completed
    */
   markPlaygroundInstanceComplete: (instanceId: number) => void;
