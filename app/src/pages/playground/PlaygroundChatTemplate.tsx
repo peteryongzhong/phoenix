@@ -40,6 +40,7 @@ import {
   createOpenAIToolCall,
   generateMessageId,
   PlaygroundChatTemplate as PlaygroundChatTemplateType,
+  PlaygroundInstance,
 } from "@phoenix/store";
 import { assertUnreachable } from "@phoenix/typeUtils";
 import { safelyParseJSON } from "@phoenix/utils/jsonUtils";
@@ -156,14 +157,18 @@ export function PlaygroundChatTemplate(props: PlaygroundChatTemplateProps) {
             size="compact"
             icon={<Icon svg={<Icons.PlusOutline />} />}
             onClick={() => {
+              const patch: Partial<PlaygroundInstance> = {
+                tools: [
+                  ...playgroundInstance.tools,
+                  createOpenAITool(playgroundInstance.tools.length + 1),
+                ],
+              };
+              if (playgroundInstance.tools.length === 0) {
+                patch.toolChoice = "auto";
+              }
               updateInstance({
                 instanceId: id,
-                patch: {
-                  tools: [
-                    ...playgroundInstance.tools,
-                    createOpenAITool(playgroundInstance.tools.length + 1),
-                  ],
-                },
+                patch,
               });
             }}
           >

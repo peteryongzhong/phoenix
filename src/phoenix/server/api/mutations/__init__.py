@@ -1,6 +1,7 @@
 import strawberry
 
 from phoenix.server.api.mutations.api_key_mutations import ApiKeyMutationMixin
+from phoenix.server.api.mutations.chat_completion_mutation import ChatCompletionMutationMixin
 from phoenix.server.api.mutations.dataset_mutations import DatasetMutationMixin
 from phoenix.server.api.mutations.experiment_mutations import ExperimentMutationMixin
 from phoenix.server.api.mutations.export_events_mutations import ExportEventsMutationMixin
@@ -20,5 +21,6 @@ class Mutation(
     SpanAnnotationMutationMixin,
     TraceAnnotationMutationMixin,
     UserMutationMixin,
+    ChatCompletionMutationMixin,
 ):
     pass

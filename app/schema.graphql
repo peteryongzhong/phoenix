@@ -70,7 +70,6 @@ type BooleanInvocationParameter implements InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
   invocationInputField: InvocationInputField!
   defaultValue: Boolean
 }
@@ -80,7 +79,6 @@ type BoundedFloatInvocationParameter implements InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
   invocationInputField: InvocationInputField!
   defaultValue: Float
   minValue: Float!
@@ -871,7 +869,6 @@ type FloatInvocationParameter implements InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
   invocationInputField: InvocationInputField!
   defaultValue: Float
 }
@@ -968,7 +965,6 @@ type IntInvocationParameter implements InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
   invocationInputField: InvocationInputField!
   defaultValue: Int
 }
@@ -994,7 +990,6 @@ interface InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
 }
 
 input InvocationParameterInput {
@@ -1019,7 +1014,6 @@ type JSONInvocationParameter implements InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
   invocationInputField: InvocationInputField!
   defaultValue: JSON
 }
@@ -1108,6 +1102,7 @@ type Mutation {
   patchUser(input: PatchUserInput!): UserMutationPayload!
   patchViewer(input: PatchViewerInput!): UserMutationPayload!
   deleteUsers(input: DeleteUsersInput!): Void
+  generateChatCompletion(input: ChatCompletionInput!): String!
 }
 
 """An object with a Globally Unique ID"""
@@ -1545,7 +1540,6 @@ type StringInvocationParameter implements InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
   invocationInputField: InvocationInputField!
   defaultValue: String
 }
@@ -1555,7 +1549,6 @@ type StringListInvocationParameter implements InvocationParameterBase {
   canonicalName: CanonicalParameterName
   label: String!
   required: Boolean!
-  hidden: Boolean!
   invocationInputField: InvocationInputField!
   defaultValue: [String!]
 }
