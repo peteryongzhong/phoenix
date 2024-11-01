@@ -140,6 +140,8 @@ export function PlaygroundOutput(props: PlaygroundOutputProps) {
       );
     }
     return "click run to see output";
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasRunId, instance.output, instanceId, runId]);
 
   return (
@@ -318,6 +320,9 @@ function NonStreamingPlaygroundOutputText(props: PlaygroundInstanceProps) {
     if (instance.template.__type !== "chat") {
       throw new Error("We only support chat templates for now");
     }
+    if (instance.activeRunId == null) {
+      return;
+    }
 
     commit({
       variables: {
@@ -350,6 +355,19 @@ function NonStreamingPlaygroundOutputText(props: PlaygroundInstanceProps) {
           markPlaygroundInstanceComplete(props.playgroundInstanceId);
           setOutput(response.generateChatCompletion);
         }
+      },
+      onError(error) {
+        markPlaygroundInstanceComplete(props.playgroundInstanceId);
+        updateInstance({
+          instanceId: props.playgroundInstanceId,
+          patch: {
+            activeRunId: null,
+          },
+        });
+        notifyError({
+          title: "Failed to get output",
+          message: error.message,
+        });
       },
     });
 
@@ -448,7 +466,6 @@ function StreamingPlaygroundOutputText(props: PlaygroundInstanceProps) {
     },
     runId: instance.activeRunId,
     onNext: (response) => {
-      console.log("test--", response);
       const chatCompletion = response.chatCompletion;
       if (chatCompletion.__typename === "TextChunk") {
         setOutput((acc) => (acc || "") + chatCompletion.content);
@@ -493,6 +510,7 @@ function StreamingPlaygroundOutputText(props: PlaygroundInstanceProps) {
           notifyError({
             title: "Chat completion failed",
             message: chatCompletion.errorMessage,
+            expireMs: 10000,
           });
         }
       }
@@ -518,7 +536,7 @@ function StreamingPlaygroundOutputText(props: PlaygroundInstanceProps) {
     },
   });
 
-  if (instance.isRunning) {
+  if (output == null && toolCalls.length === 0) {
     return (
       <Flex direction="row" gap="size-100" alignItems="center">
         <Icon svg={<Icons.LoadingOutline />} />
