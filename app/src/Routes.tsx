@@ -114,6 +114,7 @@ const router = createBrowserRouter(
                 crumb: (data: projectLoaderQuery$data) => data.project.name,
               }}
             >
+              <Route path ="between/:startTime/:endTime" element={<ProjectPage />} /> 
               <Route index element={<ProjectPage />} />
               <Route element={<ProjectPage />}>
                 <Route path="traces/:traceId" element={<TracePage />} />

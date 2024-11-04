@@ -55,8 +55,18 @@ const mainCSS = css`
 `;
 
 export function ProjectPage() {
-  const { projectId } = useParams();
-  const { timeRange } = useLastNTimeRange();
+  const { projectId, startTime, endTime } = useParams();
+
+  const lastTimeRange = useLastNTimeRange();
+  const { timeRange } =
+    startTime && endTime
+      ? {
+          timeRange: {
+            start: new Date(Number(startTime) * 1000),
+            end: new Date(Number(endTime) * 1000),
+          },
+        }
+      : lastTimeRange;
   return (
     <Suspense fallback={<Loading />}>
       <ProjectPageContent
